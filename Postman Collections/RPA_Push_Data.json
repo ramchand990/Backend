@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "58cc9d3f-3ffe-41e5-8af7-44756eede9e6",
+		"name": "RPA Push Data",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Token generation Copy",
+			"_postman_id": "11d2252b-bc8b-41c1-b6f9-3448ed120d69",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {
+						"password": "R#~p?yHBv_wQ3ws(",
+						"username": "f68875b5-c7ee-465b-bf6d-d0161009c8ef"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "f68875b5-c7ee-465b-bf6d-d0161009c8ef",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "R#~p?yHBv_wQ3ws(",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "OR.Jobs OR.Queues OR.Tasks OR.Folders OR.Machines OR.Robots OR.Execution",
+							"type": "text"
+						}
+					],
+					"options": {}
+				},
+				"url": "https://cloud.uipath.com/identity_/connect/token"
+			},
+			"response": []
+		},
+		{
+			"name": "Data Push API Copy",
+			"_postman_id": "4eb4fa95-7294-416e-be49-7cd2f1005fd4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"addTokenTo": "header",
+						"tokenName": "",
+						"grant_type": "authorization_code",
+						"challengeAlgorithm": "S256",
+						"client_authentication": "header",
+						"tokenType": ""
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-UIPATH-OrganizationUnitId",
+						"value": "3720349",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemData\": {\r\n        \"DeferDate\": \"2021-03-11T14:19:56.4407392Z\",\r\n        \"DueDate\": \"2021-03-11T15:19:56.4407392Z\",\r\n        \"Priority\": \"Normal\",\r\n        \"Name\": \"Postman\",\r\n        \"SpecificContent\": {\r\n            \"Name@odata.type\": \"#String\",\r\n            \"Name\": \"xyz\",\r\n            \"Age\": 31,\r\n            \"Status\": false\r\n            \r\n        },\r\n        \"Reference\": \"Petstore\"\r\n    }\r\n}",
+					"options": {}
+				},
+				"url": "https://cloud.uipath.com/apaarinfosystemspvtltd/DefaultTenant/odata/Queues/UiPathODataSvc.AddQueueItem"
+			},
+			"response": []
+		}
+	]
+}

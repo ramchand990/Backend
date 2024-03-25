@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "29be9cce-19a5-4ec4-9eaf-cde85b8021cd",
+		"name": "Admin Controller",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Insert Into Master Data",
+			"id": "8ce98b6e-68e0-4fdc-a845-75495eb042a5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjc0MjE4OTA5LCJpYXQiOjE2NzQyMTcxMDl9.cSX9eiCWbcp2uiziRnrzQyNFEF9VzsZbxurgOGUBGak"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tableName\": \"user_mst\",\r\n    \"requestParameters\": {\r\n        \"userName\": \"Tag\",\r\n        \"firstName\": \"Tag-1\",\r\n        \"lastName\": \"\",\r\n        \"email\":\"hari@gmail.com\",\r\n        \"isActive\":true,\r\n        \"mobileNo\":\"9004368549\",\r\n        \"password\":\"TAG@123\",\r\n        \"hospitalMstId\": 1,\r\n        \"userRoleMstId\": 2\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/admin/masters/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Into Master Data",
+			"id": "a38ad557-3246-471c-88b1-164b7436f107",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjc0MjE5NjY4LCJpYXQiOjE2NzQyMTc4Njh9.1BLzP7LQNysmPQzBFUbaFs5rG8chH_zICkoFOgYC-hI"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tableName\": \"user_mst\",\r\n    \"requestParameters\": {\r\n        \"id\":10,\r\n        \"userName\": \"Tag\",\r\n        \"firstName\": \"Tag-1\",\r\n        \"lastName\": \"\",\r\n        \"email\":\"hari@gmail.com\",\r\n        \"isActive\":false,\r\n        \"mobileNo\":\"9004368549\",\r\n        \"password\":\"TAG@123\",\r\n        \"hospitalMstId\": 1,\r\n        \"userRoleMstId\": 2\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/admin/masters/update"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Master By Name",
+			"id": "6c13d5b2-ed75-4158-9157-40ebba644e27",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/claim/admin/masters/name/gender_mst"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Notification",
+			"id": "4e62ebe1-3b22-4542-a2ca-0b8f93d5fba4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:2023/healspan/claim/getusernotification/2"
+			},
+			"response": []
+		}
+	]
+}

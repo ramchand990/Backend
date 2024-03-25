@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Healspan_new" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d5dbb289-9aca-4bf3-8947-9d76325c07da">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <parameter name="data_source" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+    <parameter name="image_path" class="java.lang.String"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="name" class="java.lang.String"/>
+    <field name="insuranceCompany" class="java.lang.String"/>
+    <field name="tpa" class="java.lang.String"/>
+    <field name="tpaIdCardNo" class="java.lang.String"/>
+    <field name="relation" class="java.lang.String"/>
+    <field name="policyHolder" class="java.lang.String"/>
+    <field name="age" class="java.lang.String"/>
+    <field name="gender" class="java.lang.String"/>
+    <field name="dob" class="java.lang.String"/>
+    <field name="procedure" class="java.lang.String"/>
+    <field name="treatmentType" class="java.lang.String"/>
+    <field name="speciality" class="java.lang.String"/>
+    <field name="dateOfFirstDiagnosis" class="java.lang.String"/>
+    <field name="doctorName" class="java.lang.String"/>
+    <field name="doctorRegistrationNo" class="java.lang.String"/>
+    <field name="doctorQualification" class="java.lang.String"/>
+    <field name="initCostEstimate" class="java.lang.Double"/>
+    <field name="initApprovalAmount" class="java.lang.Double"/>
+    <field name="initDocumentName" class="java.util.List"/>
+    <field name="enhDocumentName" class="java.util.List"/>
+    <field name="disDocumentName" class="java.util.List"/>
+    <field name="fnlDocumentName" class="java.util.List"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <pageHeader>
+        <band height="52" splitType="Stretch">
+            <image>
+                <reportElement x="0" y="0" width="180" height="50" uuid="8c3cf96b-2c98-4e02-a7f3-0e99ea99fd41"/>
+                <imageExpression><![CDATA[$P{image_path}]]></imageExpression>
+            </image>
+        </band>
+    </pageHeader>
+    <detail>
+        <band height="690" splitType="Stretch">
+            <staticText>
+                <reportElement x="211" y="1" width="159" height="30" uuid="9f231f78-c352-4f07-a645-4ffd0d4d94b3"/>
+                <textElement textAlignment="Center">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Insurance Information]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="53" width="100" height="20" uuid="f12cb68e-faba-4e9b-8858-f68d558477e1"/>
+                <textElement>
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Insurance Company:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="53" width="100" height="20" uuid="d6fd82bd-03e3-4973-809e-3e1d2b9fe8d7"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[TPA:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="104" width="100" height="20" uuid="cb3eaccc-97c3-40a5-9244-19e8b1bb2d43">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[TPA ID Card No:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="104" width="100" height="20" uuid="3410398e-288f-4645-9551-8ea4d62156ce">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Relation:	]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="155" width="100" height="20" uuid="af0fca9c-a816-4c31-96ef-d82898641713">
+                    <property name="com.jaspersoft.studio.unit.height" value="px"/>
+                </reportElement>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Policy Holder:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="205" y="218" width="130" height="30" uuid="dfaf1584-ff77-4d08-9cf7-2800f950584f"/>
+                <textElement textAlignment="Left">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Patient Information]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="258" width="100" height="20" uuid="e26773a4-dedd-479f-ae24-046468618a7e"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Name:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="309" width="100" height="20" uuid="162ed60b-4f8e-4f0b-81b7-0f5cf399fbda"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Gender:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="309" width="100" height="20" uuid="509e5067-c053-4dca-b182-cf8f23db8f94"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Date of Birth:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="258" width="100" height="20" uuid="a0e5a661-8887-4eb6-8e07-c6746c01aa29"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Age:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="205" y="369" width="145" height="30" uuid="7ecb9c16-3a13-435b-af1f-ee5d3a949418"/>
+                <textElement textAlignment="Left">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Medical Information]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="408" width="100" height="20" uuid="d9a16cd0-e048-4740-b47b-3cb883aaa8e6"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Procedure:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="459" width="100" height="20" uuid="203e9861-939b-49f7-8f3d-2bf5463f74e8"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Speciality:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="510" width="100" height="20" uuid="ddade581-6020-4034-84fe-d75a524e2f67"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Doctor Name:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="561" width="100" height="20" uuid="ef4b8b4f-13da-4bde-9254-6f4b551d9246"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Doctor Qualification:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="510" width="115" height="20" uuid="118a3720-d654-4541-b859-c2e33b1d0e63"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Doctor Registration No:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="459" width="116" height="20" uuid="070d8ee8-857f-4913-bb60-a7165312d028"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Date Of First Diagnosis:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="363" y="408" width="100" height="20" uuid="da3485c6-bc77-4939-a895-aefab9cafb4c"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Treatment Type:]]></text>
+            </staticText>
+            <break>
+                <reportElement x="0" y="680" width="553" height="1" uuid="134a2abb-fa19-4f88-b650-07b3fa665bc4"/>
+            </break>
+            <textField>
+                <reportElement x="440" y="660" width="60" height="20" uuid="32aa0e03-f6b1-4d85-a686-171edf0b934f"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="500" y="660" width="55" height="20" uuid="f96b4c09-d5bb-4ba7-919c-26851c175b74"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="278" width="192" height="25" uuid="eddf2829-df6d-48f4-b832-81ab967a43d7"/>
+                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="73" width="192" height="25" uuid="f2482f1c-d288-43d5-9097-880c379580c2"/>
+                <textFieldExpression><![CDATA[$F{insuranceCompany}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="73" width="192" height="25" uuid="b43bd8a8-aa6c-4a2f-a7a4-f8d85d784176"/>
+                <textFieldExpression><![CDATA[$F{tpa}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="124" width="192" height="25" uuid="91fbc5ae-1c97-4a70-a0e2-6e83c825fd9b"/>
+                <textFieldExpression><![CDATA[$F{tpaIdCardNo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="124" width="192" height="25" uuid="230efd06-4474-4e6e-ba2f-555ca063a4ca"/>
+                <textFieldExpression><![CDATA[$F{relation}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="175" width="192" height="25" uuid="847f14dc-3ef8-4290-97ed-3eb3b2ac3847"/>
+                <textFieldExpression><![CDATA[$F{policyHolder}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="278" width="192" height="25" uuid="c0798db5-384f-44a8-8f86-e17396ac8b5a"/>
+                <textFieldExpression><![CDATA[$F{age}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="329" width="192" height="25" uuid="b8f325be-8e02-4212-8ac4-e2bfaa8dc323"/>
+                <textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="329" width="192" height="25" uuid="019b892a-cd25-4a16-8327-cb1dde0b8de6"/>
+                <textFieldExpression><![CDATA[$F{dob}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="428" width="192" height="25" uuid="b25ddf1a-4ad9-4e80-84f0-01be8bfbf254"/>
+                <textFieldExpression><![CDATA[$F{procedure}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="428" width="192" height="25" uuid="83a4a598-2132-4fae-9f01-f8266080f14a"/>
+                <textFieldExpression><![CDATA[$F{treatmentType}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="479" width="192" height="25" uuid="61527d5f-da71-4b71-9339-10e39462e7d6"/>
+                <textFieldExpression><![CDATA[$F{speciality}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="479" width="192" height="25" uuid="ee99146b-8549-4a0a-b556-48fb573cbca9"/>
+                <textFieldExpression><![CDATA[$F{dateOfFirstDiagnosis}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="530" width="192" height="25" uuid="c50f1a34-e588-4db0-b87e-51e19f2e8408"/>
+                <textFieldExpression><![CDATA[$F{doctorName}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="363" y="530" width="192" height="25" uuid="b5ebee64-3b63-472d-83e8-78f7716e2764"/>
+                <textFieldExpression><![CDATA[$F{doctorRegistrationNo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="581" width="192" height="25" uuid="9ca58186-46b0-41ad-a7ff-2fe027942c22"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{doctorQualification}]]></textFieldExpression>
+            </textField>
+        </band>
+        <band height="567">
+            <staticText>
+                <reportElement x="0" y="0" width="150" height="30" uuid="fb9c1528-6981-4d2c-a5a5-7e1c1751aed2"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Initial-Authorization]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="0" width="180" height="20" uuid="402c1549-8684-483c-b2e0-b301557bd2f3"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Documents:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="36" width="100" height="20" uuid="1422d0ac-11e7-4acf-a0a9-c01e4fb02ab1"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Estimated Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="87" width="100" height="20" uuid="7db9d3dd-d6f2-4cf4-bc7c-3f25cc62d007"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Approval Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="140" width="130" height="30" uuid="f9bd5ef1-830c-4952-ac28-956b8e560bf5"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Enhancement]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="176" width="100" height="20" uuid="dde50eff-ff2e-4545-a131-cb246f1c8217"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Estimated Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="222" width="100" height="20" uuid="abab7147-cd0f-4bae-9cc3-ecc52451d866"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Approval Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="140" width="180" height="20" uuid="5c834e63-46e7-45a2-b0b2-96809a704fb5"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Documents:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="280" width="130" height="30" uuid="efeb8f02-b1e5-4674-9f43-1b6578556041"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Discharge]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="316" width="100" height="20" uuid="a8fdf053-4212-4230-bd58-5cfa5f50e648"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Estimated Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="361" width="100" height="20" uuid="c7452673-24d6-4fb4-974a-ea9451a63d32"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Approval Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="280" width="180" height="20" uuid="1bab5184-c184-445c-94f7-d09b549ac147"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Documents:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="424" width="130" height="30" uuid="2e22d240-f273-4f3f-b4c0-58abe449e624"/>
+                <textElement>
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Final-Claim]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="460" width="100" height="20" uuid="26584dfa-1765-455f-90ec-d093b41194eb"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Estimated Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="511" width="100" height="20" uuid="d159c22c-6bdd-4da2-8167-5a124446798a"/>
+                <textElement>
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Approval Cost:]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="424" width="180" height="20" uuid="47f4e225-c793-40d4-8add-8775ccaeebb9"/>
+                <textElement textAlignment="Center">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Documents:]]></text>
+            </staticText>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="56" width="192" height="25" uuid="9cd470ac-62a4-4358-90fd-ed93f0c255ff"/>
+                <textElement>
+                    <font isBold="false"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{initCostEstimate}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="336" width="192" height="25" uuid="5f34ed62-2d7c-4ad6-83ae-6d9bd6739a25"/>
+                <textFieldExpression><![CDATA[$F{initCostEstimate}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="107" width="192" height="25" uuid="84f44951-0b13-4ae2-9c88-062647259de2"/>
+                <textFieldExpression><![CDATA[$F{initApprovalAmount}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="531" width="192" height="25" uuid="4e000ed4-eb51-4a34-b31c-5f07cb77727d"/>
+                <textFieldExpression><![CDATA[$F{initApprovalAmount}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="381" width="192" height="25" uuid="c012b1ee-0b36-489e-9a67-61d0d44c595f"/>
+                <textFieldExpression><![CDATA[$F{initApprovalAmount}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="242" width="192" height="25" uuid="8644fbfc-a479-4666-80f9-0a75ac3a639c"/>
+                <textFieldExpression><![CDATA[$F{initApprovalAmount}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="250" y="20" width="315" height="112" uuid="7231e2d7-9396-4be6-b333-095f18ce73a7"/>
+                <textFieldExpression><![CDATA[$F{initDocumentName}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="240" y="160" width="315" height="107" uuid="7ada0108-3786-4f7d-88e8-d5296ef44e3c"/>
+                <textFieldExpression><![CDATA[$F{enhDocumentName}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="240" y="300" width="315" height="111" uuid="bae74563-c03f-4120-bed1-478f743398bd"/>
+                <textFieldExpression><![CDATA[$F{disDocumentName}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="240" y="444" width="315" height="106" uuid="6ba367c7-0ca8-436c-85a1-c63e70a6aa7a"/>
+                <textFieldExpression><![CDATA[$F{fnlDocumentName}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="196" width="192" height="25" uuid="b9821cdd-5dd4-4f65-b745-f557376e87f4"/>
+                <textFieldExpression><![CDATA[$F{initCostEstimate}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.00#;#,##0.00#- ¤" isBlankWhenNull="true">
+                <reportElement x="0" y="480" width="192" height="25" uuid="afd36832-707d-4eba-ae23-263ab613608a"/>
+                <textFieldExpression><![CDATA[$F{initCostEstimate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <lastPageFooter>
+        <band height="23">
+            <textField>
+                <reportElement x="440" y="0" width="60" height="20" uuid="ec8236d0-1d4a-4ae2-b9f3-7b2bceec7535"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+            <textField evaluationTime="Report">
+                <reportElement x="500" y="0" width="55" height="20" uuid="3d556e74-acbf-4c1e-96a4-edcc75be8eeb"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </lastPageFooter>
+    <summary>
+        <band height="23" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="1" width="554" height="20" uuid="3d7f3fb1-18f7-4395-9cc9-4b561856bd14"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[© KR4U Technologies Service Private Limited]]></text>
+            </staticText>
+        </band>
+    </summary>
+</jasperReport>

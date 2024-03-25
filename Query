@@ -1,0 +1,2038 @@
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+
+CREATE SCHEMA healspan1;
+
+
+ALTER SCHEMA healspan1 OWNER TO root;
+
+
+
+CREATE FUNCTION healspan1.check_claim_stage_link_id() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+ declare v_RECCONT INTEGER;
+begin
+   select COUNT(*) INTO v_RECCONT from claim_assignment where claim_stage_link_id = NEW.claim_stage_link_id;
+
+	if v_RECCONT < 1 THEN
+	 	  RETURN NEW;
+	END IF;
+
+END;
+$$;
+
+
+ALTER FUNCTION healspan1.check_claim_stage_link_id() OWNER TO root;
+
+
+
+CREATE FUNCTION healspan1.function_1(refcursor) RETURNS refcursor
+    LANGUAGE plpgsql
+    AS $_$
+BEGIN
+        OPEN $1 FOR SELECT * FROM healspan1.patient_info;
+        RETURN $1;
+END;
+$_$;
+
+
+ALTER FUNCTION healspan1.function_1(refcursor) OWNER TO root;
+
+
+
+CREATE PROCEDURE healspan1.get_patient_info(IN _id integer, INOUT _result_one refcursor DEFAULT 'result'::refcursor)
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+
+
+  open _result_one for
+    SELECT * from patient_info where id = _ID    ;
+
+
+
+END;
+$$;
+
+
+ALTER PROCEDURE healspan1.get_patient_info(IN _id integer, INOUT _result_one refcursor) OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.chronic_illness_master_cim_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.chronic_illness_master_cim_id_seq OWNER TO root;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+
+
+CREATE TABLE healspan1.chronic_illness_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.chronic_illness_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.chronic_illness_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.chronic_illness_mst_id_seq OWNER TO root;
+
+-
+
+CREATE TABLE healspan1.claim_assignment (
+    id bigint NOT NULL,
+    action_taken character varying(255),
+    assigned_date_time timestamp without time zone,
+    assigned_comments character varying(255),
+    completed_date_time timestamp without time zone,
+    claim_stage_link_id bigint,
+    user_mst_id bigint,
+    receiver_comment character varying(255),
+    sender_comment character varying(255),
+    sent_date_time timestamp without time zone,
+    transaction_type character varying(255),
+    assigned_from_user_mst_id bigint,
+    assigned_to_user_mst_id bigint,
+    claim_info_id bigint,
+    claim_stage_mst_id bigint,
+    assigned_to_user_role_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.claim_assignment OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_assignment_ca_id
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_assignment_ca_id OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_assignment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_assignment_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_details_cd_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_details_cd_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_details_stagewise_cds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_details_stagewise_cds_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_document_details_cdd_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_document_details_cdd_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.claim_info (
+    id bigint NOT NULL,
+    created_date_time timestamp without time zone,
+    hospital_mst_id bigint,
+    user_mst_id bigint,
+    last_updated_date_time timestamp without time zone
+);
+
+
+ALTER TABLE healspan1.claim_info OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_info_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_info_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.claim_stage_link (
+    id bigint NOT NULL,
+    created_date_time timestamp without time zone,
+    claim_info_id bigint,
+    claim_stage_mst_id bigint,
+    insurance_info_id bigint,
+    medical_info_id bigint,
+    patient_info_id bigint,
+    status_mst_id bigint,
+    user_mst_id bigint,
+    last_updated_date_time timestamp without time zone
+);
+
+
+ALTER TABLE healspan1.claim_stage_link OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_stage_link_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_stage_link_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_stage_master_csm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_stage_master_csm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.claim_stage_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.claim_stage_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.claim_stage_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.claim_stage_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.diagnosis_master_dm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.diagnosis_master_dm_id_seq OWNER TO root;
+
+
+CREATE TABLE healspan1.diagnosis_mst (
+    id bigint NOT NULL,
+    rule_engine_name character varying(255),
+    display_name character varying(255),
+    tpa_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.diagnosis_mst OWNER TO root;
+
+
+CREATE SEQUENCE healspan1.diagnosis_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.diagnosis_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.diagnosis_mst_old (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.diagnosis_mst_old OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.diagnosis_speciality_master_dsm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.diagnosis_speciality_master_dsm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.document (
+    id bigint NOT NULL,
+    name character varying(255),
+    path character varying(255),
+    status character varying(255),
+    claim_stage_link_id bigint,
+    mandatory_documents_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.document OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.document_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.document_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.document_type_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.document_type_mst OWNER TO root;
+
+
+CREATE SEQUENCE healspan1.document_type_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.document_type_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.event_master_em_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.event_master_em_id_seq OWNER TO root;
+
+
+CREATE TABLE healspan1.gender_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.gender_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.gender_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.gender_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.hospital_master_hm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.hospital_master_hm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.hospital_mst (
+    id bigint NOT NULL,
+    uhid character varying(255),
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.hospital_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.hospital_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.hospital_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.insurance_company_master_icm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.insurance_company_master_icm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.insurance_company_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.insurance_company_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.insurance_company_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.insurance_company_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.insurance_info (
+    id bigint NOT NULL,
+    approval_amount_at_discharge double precision,
+    approval_enhancement_amount double precision,
+    claim_id_pre_auth_number character varying(255),
+    group_company character varying(255),
+    initial_approval_limit double precision,
+    is_group_policy boolean,
+    policy_holder_name character varying(255),
+    policy_number character varying(255),
+    tpa_number character varying(255),
+    insurance_company_mst_id bigint,
+    relationship_mst_id bigint,
+    tpa_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.insurance_info OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.insurance_info_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.insurance_info_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.mandatory_documents_mst (
+    id bigint NOT NULL,
+    name character varying(255),
+    document_type_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.mandatory_documents_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.mandatory_documents_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.mandatory_documents_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.medical_chronic_illness_link (
+    id bigint NOT NULL,
+    chronic_illness_mst_id bigint,
+    medical_info_id bigint
+);
+
+
+ALTER TABLE healspan1.medical_chronic_illness_link OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.medical_chronic_illness_link_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.medical_chronic_illness_link_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.medical_info (
+    id bigint NOT NULL,
+    date_of_first_diagnosis timestamp without time zone,
+    doctor_name character varying(255),
+    doctor_qualification character varying(255),
+    doctor_registration_number character varying(255),
+    diagnosis_mst_id bigint,
+    procedure_mst_id bigint,
+    speciality_mst_id bigint,
+    treatment_type_mst_id bigint,
+    past_chronic_illness character varying(255)
+);
+
+
+ALTER TABLE healspan1.medical_info OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.medical_info_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.medical_info_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.medical_procedure_master_mpm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.medical_procedure_master_mpm_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.notification_master_nm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.notification_master_nm_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.other_cost_master_ocm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.other_cost_master_ocm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.other_costs_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.other_costs_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.other_costs_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.other_costs_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_chronic_illnesses_pci_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_chronic_illnesses_pci_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.patient_info (
+    id bigint NOT NULL,
+    age integer,
+    bill_number character varying(255),
+    claimed_amount double precision,
+    cost_per_day double precision,
+    date_of_birth timestamp without time zone,
+    date_of_admission timestamp without time zone,
+    date_of_discharge timestamp without time zone,
+    enhancement_estimation double precision,
+    estimated_date_of_discharge timestamp without time zone,
+    final_bill_amount double precision,
+    first_name character varying(255),
+    hospital_uhid character varying(255),
+    initial_costs_estimation double precision,
+    is_primary_insured boolean,
+    last_name character varying(255),
+    middle_name character varying(255),
+    mobile_no character varying(255),
+    other_costs_estimation double precision,
+    total_room_cost double precision,
+    gender_mst_id bigint,
+    hospital_mst_id bigint,
+    room_category_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.patient_info OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_info_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_info_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_information_pi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_information_pi_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_insurance_info_pii_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_insurance_info_pii_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_medical_info_pmi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_medical_info_pmi_id_seq OWNER TO root;
+
+
+CREATE SEQUENCE healspan1.patient_other_costs_poc_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_other_costs_poc_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.patient_othercost_link (
+    id bigint NOT NULL,
+    amount double precision,
+    other_costs_mst_id bigint,
+    patient_info_id bigint
+);
+
+
+ALTER TABLE healspan1.patient_othercost_link OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.patient_othercost_link_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.patient_othercost_link_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.procedure_mst (
+    id bigint NOT NULL,
+    rule_engine_name character varying(255),
+    display_name character varying(255),
+    tpa_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.procedure_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.procedure_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.procedure_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.question_answer (
+    id bigint NOT NULL,
+    answers character varying(255),
+    questions character varying(255),
+    medical_info_id bigint,
+    claim_info_id bigint,
+    claim_stage_link_id bigint
+);
+
+
+ALTER TABLE healspan1.question_answer OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.question_answer_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.question_answer_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.relationship_master_rsm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.relationship_master_rsm_id_seq OWNER TO root;
+
+
+CREATE TABLE healspan1.relationship_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.relationship_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.relationship_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.relationship_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.role_master_rlm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.role_master_rlm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.room_category_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.room_category_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.room_category_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.room_category_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.room_master_rm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.room_master_rm_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.sequential_questions_sq_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.sequential_questions_sq_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.speciality_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.speciality_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.speciality_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.speciality_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.stage_and_document_link_mst (
+    id bigint NOT NULL,
+    claim_stage_mst_id bigint,
+    mandatory_documents_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.stage_and_document_link_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.stage_and_document_link_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.stage_and_document_link_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.status_master_status_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.status_master_status_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.status_mst (
+    id bigint NOT NULL,
+    name character varying(255),
+    claim_stage_id bigint
+);
+
+
+ALTER TABLE healspan1.status_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.status_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.status_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.tpa_master_tm_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.tpa_master_tm_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.tpa_mst (
+    id bigint NOT NULL,
+    name character varying(255) NOT NULL
+);
+
+
+ALTER TABLE healspan1.tpa_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.tpa_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.tpa_mst_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.treatment_type_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.treatment_type_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.treatment_type_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.treatment_type_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.user_master_um_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.user_master_um_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.user_mst (
+    id bigint NOT NULL,
+    email character varying(255),
+    first_name character varying(255),
+    is_active boolean,
+    last_name character varying(255),
+    middle_name character varying(255),
+    mobile_no character varying(255),
+    password character varying(255),
+    username character varying(255),
+    hospital_mst_id bigint,
+    user_role_mst_id bigint
+);
+
+
+ALTER TABLE healspan1.user_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.user_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.user_mst_id_seq OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.user_notification_link_unl_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.user_notification_link_unl_id_seq OWNER TO root;
+
+
+
+CREATE TABLE healspan1.user_role_mst (
+    id bigint NOT NULL,
+    name character varying(255)
+);
+
+
+ALTER TABLE healspan1.user_role_mst OWNER TO root;
+
+
+
+CREATE SEQUENCE healspan1.user_role_mst_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE healspan1.user_role_mst_id_seq OWNER TO root;
+
+
+
+INSERT INTO healspan1.chronic_illness_mst VALUES (1, 'Acute Illness');
+INSERT INTO healspan1.chronic_illness_mst VALUES (2, 'Acute Onset Chronic Illness');
+INSERT INTO healspan1.chronic_illness_mst VALUES (3, 'Chronic Illnesses');
+INSERT INTO healspan1.chronic_illness_mst VALUES (4, 'Sub Acute Illnes');
+
+
+
+INSERT INTO healspan1.claim_stage_mst VALUES (2, 'Enhancement');
+INSERT INTO healspan1.claim_stage_mst VALUES (3, 'Discharge');
+INSERT INTO healspan1.claim_stage_mst VALUES (4, 'Final Claim');
+INSERT INTO healspan1.claim_stage_mst VALUES (1, 'Initial Authorization');
+
+
+
+
+INSERT INTO healspan1.diagnosis_mst VALUES (55, 'Vericose Veins', 'Vericose Veins', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (54, 'Vericose Veins', 'Varicose veins of other sites', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (34, 'Maternity', 'Term delivery with preterm labour, third trimester', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (53, 'Vericose Veins', 'Varicose Veins of lower extremities', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (1, 'Maternity', 'Single Spontaneous Delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (2, 'Maternity', 'Single delivery by forceps and vaccuum extractor', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (3, 'Maternity', 'Single delivery by Caesarean Section', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (4, 'Maternity', 'Other assisted delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (5, 'Maternity', 'Multiple delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (6, 'Maternity', 'Outcome of delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (7, 'Maternity', 'Preterm labour and delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (8, 'Maternity', 'Preterm labour and preterm delivery', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (9, 'Maternity', 'Term delivery with preterm labour, third trimester', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (10, 'Maternity', 'Other complications of labour and delivery, not elsewhere classified', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (11, 'Maternity', 'MTP', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (12, 'Maternity', 'Ectopic Pregnancy', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (13, 'Maternity', 'Complications following abortion and ectopic and molar pregnancy', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (14, 'Maternity', 'Failed attempted abortion', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (15, 'Maternity', 'Medical abortion', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (16, 'Maternity', 'Spontaneous abortion', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (26, 'Maternity', 'Single Spontaneous Delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (27, 'Maternity', 'Single delivery by forceps and vaccuum extractor', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (28, 'Maternity', 'Single delivery by Caesarean Section', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (29, 'Maternity', 'Other assisted delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (30, 'Maternity', 'Multiple delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (31, 'Maternity', 'Outcome of delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (32, 'Maternity', 'Preterm labour and delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (33, 'Maternity', 'Preterm labour and preterm delivery', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (35, 'Maternity', 'Other complications of labour and delivery, not elsewhere classified', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (36, 'Maternity', 'MTP', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (37, 'Maternity', 'Ectopic Pregnancy', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (38, 'Maternity', 'Complications following abortion and ectopic and molar pregnancy', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (39, 'Maternity', 'Failed attempted abortion', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (40, 'Maternity', 'Medical abortion', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (41, 'Maternity', 'Spontaneous abortion', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (42, 'Maternity', 'Other abortion', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (43, 'Maternity', 'Unspecified abortion', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (44, 'Maternity', 'Eclampsia', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (45, 'Maternity', 'Hyperemesis Gravidarum', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (46, 'Maternity', 'Gestational Diabetes', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (47, 'Maternity', 'UTI in pregnancy', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (48, 'Maternity', 'Anemia in pregnancy', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (49, 'Maternity', 'PPH', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (50, 'Maternity', 'PIH', 6);
+INSERT INTO healspan1.diagnosis_mst VALUES (17, 'Maternity', 'Other abortion', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (18, 'Maternity', 'Unspecified abortion', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (19, 'Maternity', 'Eclampsia', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (20, 'Maternity', 'Hyperemesis Gravidarum', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (21, 'Maternity', 'Gestational Diabetes', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (22, 'Maternity', 'UTI in pregnancy', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (23, 'Maternity', 'Anemia in pregnancy', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (24, 'Maternity', 'PPH', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (25, 'Maternity', 'PIH', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (51, 'Vericose Veins', 'Varicose Veins of lower extremities', 2);
+INSERT INTO healspan1.diagnosis_mst VALUES (52, 'Vericose Veins', 'Varicose veins of other sites', 2);
+
+
+
+
+INSERT INTO healspan1.diagnosis_mst_old VALUES (2, 'Respiratory illness');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (3, 'Chronic Kidney Disease');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (4, 'Angina/Chest Pain');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (5, 'Cancer');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (6, 'Maternity');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (7, 'Hernia');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (8, 'Fractures');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (9, 'Dengue');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (10, 'Cataract');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (11, 'Essential Hypertension');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (12, 'Viral Fever');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (13, 'Acute Gastroeteritis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (14, 'Abortion');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (15, 'Osteoarthrithis Knee');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (16, 'Coronary Artery Disease CAD');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (17, 'Bronchitis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (18, 'ACL tear');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (19, 'Cholecystitis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (20, 'Pancreatitis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (21, 'Chronic Liver Disease');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (22, 'Appendicitis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (23, 'BPH Benign Prostatic Hyperplasia');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (24, 'COPD Chronic Obstructive Pulmonary Disease');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (25, 'Liver Cirrhosis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (26, 'COVID');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (27, 'uterus polyp');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (28, 'Threatened abortion');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (29, 'Renal stones');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (30, 'tonsilitis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (31, 'Ovarian Cyst');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (32, 'Pelvic Inflammatory disease');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (33, 'Stroke');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (34, 'Urinary Tract Infection');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (35, 'Kidney Disorders');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (36, 'Neonatal Jaundice/Hyperbilirubinemia');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (37, 'Respiratory Distress of the newborn');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (38, 'Skin disorders');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (39, 'Diabetes Mellitus');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (40, 'Gangrene of foot');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (41, 'wound/burn/infection');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (42, 'Haemorrhoids');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (43, 'Menstural bleeding/Uterine prolapse/Uterine fibroids');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (44, 'Eye disorder(RE issues)');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (45, 'Phimosis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (46, 'Congenital Disorders');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (47, 'Diabetes Mellitus');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (48, 'Dyspnea');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (49, 'Sepsis');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (50, 'Ectopic pregnancy');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (51, 'Hyperemesis Gravidarum');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (52, 'Newborn small for gestational age');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (53, 'Extremely low birthweigyht newborn');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (54, 'Cancer of Breast');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (55, 'Cancer of Ovary');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (56, 'Myocardial Infarction');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (57, 'Atrial Septal defect');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (58, 'Anemia');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (59, 'Varicose Veins');
+INSERT INTO healspan1.diagnosis_mst_old VALUES (1, 'Road Traffic Accident');
+
+
+INSERT INTO healspan1.document_type_mst VALUES (1, 'Mandatory');
+INSERT INTO healspan1.document_type_mst VALUES (2, 'Rule Engine');
+INSERT INTO healspan1.document_type_mst VALUES (3, 'Reviewer');
+INSERT INTO healspan1.document_type_mst VALUES (4, 'Other');
+
+
+INSERT INTO healspan1.gender_mst VALUES (1, 'Male');
+INSERT INTO healspan1.gender_mst VALUES (2, 'Female');
+INSERT INTO healspan1.gender_mst VALUES (3, 'Others');
+
+
+INSERT INTO healspan1.hospital_mst VALUES (1, 'Fortiz_123', 'Fortiz');
+INSERT INTO healspan1.hospital_mst VALUES (2, 'Jupiter_123', 'Jupiter');
+INSERT INTO healspan1.hospital_mst VALUES (3, 'Bethny_123', 'Bethny');
+INSERT INTO healspan1.hospital_mst VALUES (4, 'Lilavati_123', 'Lilavati');
+
+
+INSERT INTO healspan1.insurance_company_mst VALUES (1, 'Acko General Insurance Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (2, 'Aditya Birla Health Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (3, 'Agriculture Insurance Company of India Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (4, 'Bajaj Allianz General Insurance Co. Ltd');
+INSERT INTO healspan1.insurance_company_mst VALUES (5, 'Cholamandalam MS General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (6, 'Manipal Cigna Health Insurance Company Limited');
+INSERT INTO healspan1.insurance_company_mst VALUES (7, 'Navi General Insurance Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (8, 'Edelweiss General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (9, 'ECGC Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (10, 'Future Generali India Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (11, 'Go Digit General Insurance Ltd');
+INSERT INTO healspan1.insurance_company_mst VALUES (12, 'HDFC ERGO General Insurance Co.Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (13, 'ICICI LOMBARD General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (14, 'IFFCO TOKIO General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (15, 'Kotak Mahindra General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (16, 'Liberty General Insurance Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (17, 'Magma HDI General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (18, 'Niva Bupa Health Insurance Co Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (19, 'National Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (20, 'Raheja QBE General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (21, 'Reliance General Insurance Co.Ltd');
+INSERT INTO healspan1.insurance_company_mst VALUES (22, 'Reliance Health Insurance Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (23, 'Care Health Insurance Ltd(formerly known as Religare Health Insurance Co. Ltd.)');
+INSERT INTO healspan1.insurance_company_mst VALUES (24, 'Royal Sundaram General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (25, 'SBI General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (26, 'Shriram General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (27, 'Star Health & Allied Insurance Co.Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (28, 'Tata AIG General Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (29, 'The New India Assurance Co. Ltd');
+INSERT INTO healspan1.insurance_company_mst VALUES (30, 'The Oriental Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (31, 'United India Insurance Co. Ltd.');
+INSERT INTO healspan1.insurance_company_mst VALUES (32, 'Universal Sompo General Insurance Co. Ltd.');
+
+
+INSERT INTO healspan1.mandatory_documents_mst VALUES (1, 'Report supporting the diagnosis', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (2, 'Patient address proof (Pref. Aadhar)', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (3, 'Insured PAN Card', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (4, 'Claim Form (Part A)', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (5, 'All the reports pertaining to the lab bills submitted', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (6, 'All medicine prescription papers for the medicine bills submitted', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (7, 'Detailed IP costwise itemwise break up bill', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (8, 'Detailed Discharge Summary', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (9, 'Patient PAN Card', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (10, 'Insurance card', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (11, 'Final Bill', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (12, 'Claim Form (Part A & B)', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (13, 'Discharge Summary (with seal & signature)', 1);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (14, 'dummy adhardnbdr6hcard', 2);
+INSERT INTO healspan1.mandatory_documents_mst VALUES (15, 'Dummy PanCard', 2);
+
+
+INSERT INTO healspan1.other_costs_mst VALUES (1, 'Consultation');
+INSERT INTO healspan1.other_costs_mst VALUES (2, 'Consumables');
+INSERT INTO healspan1.other_costs_mst VALUES (3, 'Investigations');
+INSERT INTO healspan1.other_costs_mst VALUES (4, 'Medicines');
+INSERT INTO healspan1.other_costs_mst VALUES (5, 'OT Charges');
+INSERT INTO healspan1.other_costs_mst VALUES (6, 'Other Hospital Expenses');
+INSERT INTO healspan1.other_costs_mst VALUES (7, 'Package');
+INSERT INTO healspan1.other_costs_mst VALUES (8, 'Surgeon & Anasthesia');
+
+
+INSERT INTO healspan1.procedure_mst VALUES (27, 'Lower Segment Caesarean Section', 'Caesarean Delivery with well baby care', 6);
+INSERT INTO healspan1.procedure_mst VALUES (28, 'Lower Segment Caesarean Section', 'Caesarean Delivery twins with well baby care', 6);
+INSERT INTO healspan1.procedure_mst VALUES (29, 'Lower Segment Caesarean Section', 'Complicated LSCS', 6);
+INSERT INTO healspan1.procedure_mst VALUES (30, 'Dilatation and Currettage', 'Obstetrics-Medical Management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (31, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Medical Management of Haemorrhagic shock in pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (32, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Gynec- conservative management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (33, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Medical Management/Hyperemesis Gravidarum management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (1, 'Full Term Normal Delivery', 'Normal Delivery/Spontaneous vertex delivery', 2);
+INSERT INTO healspan1.procedure_mst VALUES (2, 'Full Term Normal Delivery', 'Forceps Delivery/Instrumental delivery(Forces/Vaccuum)', 2);
+INSERT INTO healspan1.procedure_mst VALUES (3, 'Full Term Normal Delivery', 'Forceps Delivery', 2);
+INSERT INTO healspan1.procedure_mst VALUES (4, 'Full Term Normal Delivery', 'Other procedures associated with delivery', 2);
+INSERT INTO healspan1.procedure_mst VALUES (5, 'Full Term Normal Delivery', 'Instrumental Delivery', 2);
+INSERT INTO healspan1.procedure_mst VALUES (6, 'Full Term Normal Delivery', 'Normal Delivery', 2);
+INSERT INTO healspan1.procedure_mst VALUES (7, 'Full Term Normal Delivery', 'Breech Delivery and Extraction', 2);
+INSERT INTO healspan1.procedure_mst VALUES (8, 'Lower Segment Caesarean Section', 'Casearean Delivery(LSCS)', 2);
+INSERT INTO healspan1.procedure_mst VALUES (9, 'Lower Segment Caesarean Section', 'Lower Segment Cessarian Section(LSCS)', 2);
+INSERT INTO healspan1.procedure_mst VALUES (10, 'Lower Segment Caesarean Section', 'C- Section (LSCS)', 2);
+INSERT INTO healspan1.procedure_mst VALUES (11, 'Cervical Encerclage', 'Cervical Cerclage', 2);
+INSERT INTO healspan1.procedure_mst VALUES (12, 'Dilatation and Currettage', 'Dilatation and Currettage', 2);
+INSERT INTO healspan1.procedure_mst VALUES (13, 'Salphingectomy', 'Laproscopic Salpingectomy', 2);
+INSERT INTO healspan1.procedure_mst VALUES (14, 'Salphingectomy', 'Laprotomy And Salphingectomy', 2);
+INSERT INTO healspan1.procedure_mst VALUES (15, 'Salphingectomy', 'Laproscopy And Salphingectomy', 2);
+INSERT INTO healspan1.procedure_mst VALUES (16, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Medical Management', 2);
+INSERT INTO healspan1.procedure_mst VALUES (34, 'Gestational Diabetes', 'diabetes complicating pregnancy management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (35, 'Gestational Diabetes', 'Medical management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (36, 'Gestational Diabetes', 'Moderate Anaemia management in pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (37, 'Gestational Diabetes', 'Severe anemia management in pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (38, 'Gestational Diabetes', 'Medical Mangaement of PPH', 6);
+INSERT INTO healspan1.procedure_mst VALUES (39, 'Gestational Diabetes', 'PIH Management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (40, 'Gestational Diabetes', 'Management of Eclampsia with complications', 6);
+INSERT INTO healspan1.procedure_mst VALUES (41, 'Dilatation and Currettage', 'Surgical Management of Abortion', 6);
+INSERT INTO healspan1.procedure_mst VALUES (42, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Medical management of Hypertensive cardiovascular disease in pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (43, 'Threatened Abortion/Heamorrhage In Early Pregnancy', 'Heart disease complicating pregnancy management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (17, 'Full Term Normal Delivery', 'Normal Delivery', 6);
+INSERT INTO healspan1.procedure_mst VALUES (18, 'Full Term Normal Delivery', 'Normal Vaginal Delivery with Epidural Anaesthesia', 6);
+INSERT INTO healspan1.procedure_mst VALUES (19, 'Lower Segment Caesarean Section', 'Normal Vaginal Delivery in twins(Multiple Pregnancy)', 6);
+INSERT INTO healspan1.procedure_mst VALUES (20, 'Full Term Normal Delivery', 'Assisted Delivery', 6);
+INSERT INTO healspan1.procedure_mst VALUES (21, 'Full Term Normal Delivery', 'Instrumental Vaginal Delivery', 6);
+INSERT INTO healspan1.procedure_mst VALUES (22, 'Lower Segment Caesarean Section', 'Delivery in complicated Pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (23, 'Salphingectomy', 'Ectopic pregnancy', 6);
+INSERT INTO healspan1.procedure_mst VALUES (24, 'Dilatation and Currettage', 'Dilatation and Evacuation(DnE)', 6);
+INSERT INTO healspan1.procedure_mst VALUES (25, 'Dilatation and Currettage', 'Abortion-Conservative Management', 6);
+INSERT INTO healspan1.procedure_mst VALUES (26, 'Dilatation and Currettage', 'Dilatation and Curettage(DnC)', 6);
+INSERT INTO healspan1.procedure_mst VALUES (44, 'Radiofrequency Ablation', 'Radiofrequency Ablation(RFA)', 2);
+INSERT INTO healspan1.procedure_mst VALUES (45, 'Radiofrequency Ablation', 'Radiofrequency Ablation', 2);
+INSERT INTO healspan1.procedure_mst VALUES (46, 'Radiofrequency Ablation', 'Ablation', 2);
+INSERT INTO healspan1.procedure_mst VALUES (47, 'Radiofrequency Ablation', 'Endovenous Ablation', 2);
+INSERT INTO healspan1.procedure_mst VALUES (48, 'Radiofrequency Ablation', 'Radiofrequency Ablation', 2);
+INSERT INTO healspan1.procedure_mst VALUES (49, 'Sclerotherapy', 'Left Gsv Ablation And Foam Sclerotherapy', 2);
+INSERT INTO healspan1.procedure_mst VALUES (50, 'Laser Therapy', 'Endovenous Laser Therapy', 2);
+INSERT INTO healspan1.procedure_mst VALUES (51, 'Laser Therapy', 'Laser', 2);
+INSERT INTO healspan1.procedure_mst VALUES (52, 'Vein Stripping', 'Ligation and Stripping', 2);
+INSERT INTO healspan1.procedure_mst VALUES (53, 'Vein Stripping', 'Stripping', 2);
+INSERT INTO healspan1.procedure_mst VALUES (54, 'Laser Therapy', 'Varicose Veins- Laser Ablation- Right', 6);
+INSERT INTO healspan1.procedure_mst VALUES (55, 'Laser Therapy', 'Varicose Veins- Laser Ablation- Left', 6);
+INSERT INTO healspan1.procedure_mst VALUES (56, 'Vein Stripping', 'Varicose Veins- Excision and Ligation- Left', 6);
+INSERT INTO healspan1.procedure_mst VALUES (57, 'Vein Stripping', 'Varicose Veins- Excision and Ligation- Right', 6);
+
+
+INSERT INTO healspan1.relationship_mst VALUES (1, 'Self');
+INSERT INTO healspan1.relationship_mst VALUES (2, 'Spouse');
+INSERT INTO healspan1.relationship_mst VALUES (3, 'Father');
+INSERT INTO healspan1.relationship_mst VALUES (4, 'Mother');
+INSERT INTO healspan1.relationship_mst VALUES (5, 'Father in law');
+INSERT INTO healspan1.relationship_mst VALUES (6, 'Mother in law');
+INSERT INTO healspan1.relationship_mst VALUES (7, 'Son');
+INSERT INTO healspan1.relationship_mst VALUES (8, 'Daughter');
+INSERT INTO healspan1.relationship_mst VALUES (9, 'Sibling');
+INSERT INTO healspan1.relationship_mst VALUES (10, 'Other');
+
+
+INSERT INTO healspan1.room_category_mst VALUES (1, 'Single Private AC');
+INSERT INTO healspan1.room_category_mst VALUES (2, 'Delux Room');
+INSERT INTO healspan1.room_category_mst VALUES (3, 'Twin Sharing');
+INSERT INTO healspan1.room_category_mst VALUES (4, 'Triple Sharing');
+INSERT INTO healspan1.room_category_mst VALUES (5, 'General Ward');
+INSERT INTO healspan1.room_category_mst VALUES (6, 'Super Delux');
+INSERT INTO healspan1.room_category_mst VALUES (7, 'Suite');
+INSERT INTO healspan1.room_category_mst VALUES (8, 'Non/Ac room');
+INSERT INTO healspan1.room_category_mst VALUES (9, 'ICU/NICU/SICU');
+INSERT INTO healspan1.room_category_mst VALUES (10, 'Daycare');
+INSERT INTO healspan1.room_category_mst VALUES (11, 'OPD');
+
+
+INSERT INTO healspan1.speciality_mst VALUES (1, 'Neurology');
+INSERT INTO healspan1.speciality_mst VALUES (2, 'Cardiology');
+INSERT INTO healspan1.speciality_mst VALUES (3, 'CardioRespiratory');
+INSERT INTO healspan1.speciality_mst VALUES (4, 'Opthalmology');
+INSERT INTO healspan1.speciality_mst VALUES (5, 'Nephrology');
+INSERT INTO healspan1.speciality_mst VALUES (6, 'Endocrinology');
+INSERT INTO healspan1.speciality_mst VALUES (7, 'Muskuloskeletal');
+INSERT INTO healspan1.speciality_mst VALUES (8, 'Obs and Gynacecology');
+INSERT INTO healspan1.speciality_mst VALUES (9, 'General Medicine');
+INSERT INTO healspan1.speciality_mst VALUES (10, 'General Surgery');
+
+
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (1, 1, 1);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (2, 1, 2);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (3, 1, 3);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (4, 1, 4);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (5, 2, 1);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (6, 2, 2);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (7, 2, 3);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (8, 2, 4);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (9, 3, 1);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (10, 3, 2);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (11, 3, 3);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (12, 3, 4);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (13, 3, 5);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (14, 3, 6);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (15, 3, 7);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (16, 3, 8);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (17, 4, 1);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (18, 4, 2);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (19, 4, 3);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (20, 4, 4);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (21, 4, 5);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (22, 4, 6);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (23, 4, 7);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (24, 4, 8);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (25, 4, 9);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (26, 4, 10);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (27, 4, 11);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (28, 4, 12);
+INSERT INTO healspan1.stage_and_document_link_mst VALUES (29, 4, 13);
+
+
+INSERT INTO healspan1.status_mst VALUES (1, 'Created', NULL);
+INSERT INTO healspan1.status_mst VALUES (2, 'Draft', NULL);
+INSERT INTO healspan1.status_mst VALUES (3, 'Submitted', NULL);
+INSERT INTO healspan1.status_mst VALUES (4, 'Reviewer Assigned', NULL);
+INSERT INTO healspan1.status_mst VALUES (5, 'Pending Review', NULL);
+INSERT INTO healspan1.status_mst VALUES (6, 'Reviewed', NULL);
+INSERT INTO healspan1.status_mst VALUES (7, 'Pending Documents', NULL);
+INSERT INTO healspan1.status_mst VALUES (8, 'Pending HS Approval', NULL);
+INSERT INTO healspan1.status_mst VALUES (9, 'Pending TPA Approval', NULL);
+INSERT INTO healspan1.status_mst VALUES (10, 'TPA Query Raised', NULL);
+INSERT INTO healspan1.status_mst VALUES (11, 'TPA Query Responded', NULL);
+INSERT INTO healspan1.status_mst VALUES (12, 'Rejected', NULL);
+INSERT INTO healspan1.status_mst VALUES (13, 'Hard copies to be sent', NULL);
+INSERT INTO healspan1.status_mst VALUES (14, 'Documents dispatched', NULL);
+INSERT INTO healspan1.status_mst VALUES (15, 'Approved', NULL);
+INSERT INTO healspan1.status_mst VALUES (16, 'Settled', NULL);
+INSERT INTO healspan1.status_mst VALUES (17, 'Rejected', NULL);
+INSERT INTO healspan1.status_mst VALUES (18, 'Pending Documents', 1);
+INSERT INTO healspan1.status_mst VALUES (19, 'Pending HS Approval', 1);
+INSERT INTO healspan1.status_mst VALUES (20, 'Pending TPA Approval', 1);
+INSERT INTO healspan1.status_mst VALUES (21, 'TPA Query', 1);
+INSERT INTO healspan1.status_mst VALUES (22, 'Approved', 1);
+INSERT INTO healspan1.status_mst VALUES (23, 'Rejected', 1);
+INSERT INTO healspan1.status_mst VALUES (24, 'Pending Documents', 2);
+INSERT INTO healspan1.status_mst VALUES (25, 'Pending HS Approval', 2);
+INSERT INTO healspan1.status_mst VALUES (26, 'Pending TPA Approval', 2);
+INSERT INTO healspan1.status_mst VALUES (27, 'TPA Query', 2);
+INSERT INTO healspan1.status_mst VALUES (28, 'Approved', 2);
+INSERT INTO healspan1.status_mst VALUES (29, 'Rejected', 2);
+INSERT INTO healspan1.status_mst VALUES (30, 'Pending Documents', 3);
+INSERT INTO healspan1.status_mst VALUES (31, 'Pending HS Approval', 3);
+INSERT INTO healspan1.status_mst VALUES (32, 'Pending TPA Approval', 3);
+INSERT INTO healspan1.status_mst VALUES (33, 'TPA Query', 3);
+INSERT INTO healspan1.status_mst VALUES (34, 'Rejected', 3);
+INSERT INTO healspan1.status_mst VALUES (35, 'Pending Documents', 4);
+INSERT INTO healspan1.status_mst VALUES (36, 'Pending HS Approval', 4);
+INSERT INTO healspan1.status_mst VALUES (37, 'Hard copies to be sent', 4);
+INSERT INTO healspan1.status_mst VALUES (38, 'Documents dispatched', 4);
+INSERT INTO healspan1.status_mst VALUES (39, 'Pending TPA Approval', 4);
+INSERT INTO healspan1.status_mst VALUES (40, 'TPA Query', 4);
+INSERT INTO healspan1.status_mst VALUES (41, 'Approved', 4);
+INSERT INTO healspan1.status_mst VALUES (42, 'Settled', 4);
+INSERT INTO healspan1.status_mst VALUES (43, 'Rejected', 4);
+
+
+INSERT INTO healspan1.tpa_mst VALUES (1, 'Medvantage Insurance TPA Private Limited (formerly known as United Health Care Parekh Insurance TPA Private Limited)');
+INSERT INTO healspan1.tpa_mst VALUES (2, 'Medi Assist Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (3, 'MDIndia Health Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (4, 'Paramount Health Services & Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (5, 'Heritage Health Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (6, 'Family Health Plan Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (7, 'Raksha Health Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (8, 'Vidal Health Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (9, 'East West Assist Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (10, 'Medsave Health Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (11, 'Genins India Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (12, 'Health India Insurance TPA Services Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (13, 'Good Health Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (14, 'Park Mediclaim Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (15, 'Safeway Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (16, 'Anmol Medicare Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (17, 'Rothshield Insurance TPA Limited');
+INSERT INTO healspan1.tpa_mst VALUES (18, 'Ericson Insurance TPA Private Limited');
+INSERT INTO healspan1.tpa_mst VALUES (19, 'Health Insurance TPA of India Limited');
+INSERT INTO healspan1.tpa_mst VALUES (20, 'Vision Digital Insurance TPA Private Limited');
+
+
+INSERT INTO healspan1.treatment_type_mst VALUES (1, 'Medical management');
+INSERT INTO healspan1.treatment_type_mst VALUES (2, 'Surgical management');
+
+
+INSERT INTO healspan1.user_mst VALUES (1, NULL, 'System', true, NULL, NULL, NULL, 'System', 'System', NULL, 1);
+INSERT INTO healspan1.user_mst VALUES (2, NULL, 'Hospital-1', true, NULL, NULL, NULL, 'Pass@123', 'Hospital-1', 1, 2);
+INSERT INTO healspan1.user_mst VALUES (3, NULL, 'Hospital-2', true, NULL, NULL, NULL, 'Pass@123', 'Hospital-2', 2, 2);
+INSERT INTO healspan1.user_mst VALUES (4, NULL, 'Hospital-3', true, NULL, NULL, NULL, 'Pass@123', 'Hospital-3', 3, 2);
+INSERT INTO healspan1.user_mst VALUES (5, NULL, 'Reviewer-1', true, NULL, NULL, NULL, 'Pass@123', 'Reviewer-1', NULL, 3);
+INSERT INTO healspan1.user_mst VALUES (6, NULL, 'Reviewer-2', true, NULL, NULL, NULL, 'Pass@123', 'Reviewer-2', NULL, 3);
+INSERT INTO healspan1.user_mst VALUES (7, NULL, 'Reviewer-3', true, NULL, NULL, NULL, 'Pass@123', 'Reviewer-3', NULL, 3);
+
+
+INSERT INTO healspan1.user_role_mst VALUES (1, 'Admin');
+INSERT INTO healspan1.user_role_mst VALUES (2, 'Hospital');
+INSERT INTO healspan1.user_role_mst VALUES (3, 'healspan1');
+INSERT INTO healspan1.user_role_mst VALUES (4, 'Courier');
+
+
+SELECT pg_catalog.setval('healspan1.chronic_illness_master_cim_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.chronic_illness_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_assignment_ca_id', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_assignment_id_seq', 167, true);
+
+
+SELECT pg_catalog.setval('healspan1.claim_details_cd_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_details_stagewise_cds_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_document_details_cdd_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_info_id_seq', 150, true);
+
+
+SELECT pg_catalog.setval('healspan1.claim_stage_link_id_seq', 290, true);
+
+
+SELECT pg_catalog.setval('healspan1.claim_stage_master_csm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.claim_stage_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.diagnosis_master_dm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.diagnosis_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.diagnosis_speciality_master_dsm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.document_id_seq', 1160, true);
+
+
+SELECT pg_catalog.setval('healspan1.document_type_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.event_master_em_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.gender_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.hospital_master_hm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.hospital_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.insurance_company_master_icm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.insurance_company_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.insurance_info_id_seq', 152, true);
+
+
+SELECT pg_catalog.setval('healspan1.mandatory_documents_mst_id_seq', 15, true);
+
+
+SELECT pg_catalog.setval('healspan1.medical_chronic_illness_link_id_seq', 593, true);
+
+
+SELECT pg_catalog.setval('healspan1.medical_info_id_seq', 225, true);
+
+SELECT pg_catalog.setval('healspan1.medical_procedure_master_mpm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.notification_master_nm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.other_cost_master_ocm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.other_costs_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_chronic_illnesses_pci_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_info_id_seq', 443, true);
+
+
+SELECT pg_catalog.setval('healspan1.patient_information_pi_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_insurance_info_pii_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_medical_info_pmi_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_other_costs_poc_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.patient_othercost_link_id_seq', 465, true);
+
+
+SELECT pg_catalog.setval('healspan1.procedure_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.question_answer_id_seq', 221, true);
+
+
+SELECT pg_catalog.setval('healspan1.relationship_master_rsm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.relationship_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.role_master_rlm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.room_category_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.room_master_rm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.sequential_questions_sq_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.speciality_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.stage_and_document_link_mst_id_seq', 1, false);
+
+SELECT pg_catalog.setval('healspan1.status_master_status_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.status_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.tpa_master_tm_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.tpa_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.treatment_type_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.user_master_um_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.user_mst_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.user_notification_link_unl_id_seq', 1, false);
+
+
+SELECT pg_catalog.setval('healspan1.user_role_mst_id_seq', 1, false);
+
+
+ALTER TABLE ONLY healspan1.chronic_illness_mst
+    ADD CONSTRAINT chronic_illness_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT claim_assignment_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.claim_info
+    ADD CONSTRAINT claim_info_pkey PRIMARY KEY (id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT claim_stage_link_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_mst
+    ADD CONSTRAINT claim_stage_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.diagnosis_mst
+    ADD CONSTRAINT diagnosis_mst_new_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.diagnosis_mst_old
+    ADD CONSTRAINT diagnosis_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.document
+    ADD CONSTRAINT document_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.document_type_mst
+    ADD CONSTRAINT document_type_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.gender_mst
+    ADD CONSTRAINT gender_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.hospital_mst
+    ADD CONSTRAINT hospital_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.insurance_company_mst
+    ADD CONSTRAINT insurance_company_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.insurance_info
+    ADD CONSTRAINT insurance_info_pkey PRIMARY KEY (id);
+
+
+
+ALTER TABLE ONLY healspan1.mandatory_documents_mst
+    ADD CONSTRAINT mandatory_documents_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.medical_chronic_illness_link
+    ADD CONSTRAINT medical_chronic_illness_link_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.medical_info
+    ADD CONSTRAINT medical_info_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.other_costs_mst
+    ADD CONSTRAINT other_costs_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.patient_info
+    ADD CONSTRAINT patient_info_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.patient_othercost_link
+    ADD CONSTRAINT patient_othercost_link_pkey PRIMARY KEY (id);
+
+
+
+ALTER TABLE ONLY healspan1.procedure_mst
+    ADD CONSTRAINT procedure_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.question_answer
+    ADD CONSTRAINT question_answer_pkey PRIMARY KEY (id);
+
+
+
+ALTER TABLE ONLY healspan1.relationship_mst
+    ADD CONSTRAINT relationship_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.room_category_mst
+    ADD CONSTRAINT room_category_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.speciality_mst
+    ADD CONSTRAINT speciality_mst_pkey PRIMARY KEY (id);
+
+
+
+ALTER TABLE ONLY healspan1.stage_and_document_link_mst
+    ADD CONSTRAINT stage_and_document_link_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.status_mst
+    ADD CONSTRAINT status_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.tpa_mst
+    ADD CONSTRAINT tpa_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.treatment_type_mst
+    ADD CONSTRAINT treatment_type_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.user_mst
+    ADD CONSTRAINT user_mst_pkey PRIMARY KEY (id);
+
+
+ALTER TABLE ONLY healspan1.user_role_mst
+    ADD CONSTRAINT user_role_mst_pkey PRIMARY KEY (id);
+
+
+CREATE TRIGGER trg_check_claim_stage_link_id BEFORE INSERT ON healspan1.claim_assignment FOR EACH ROW EXECUTE FUNCTION healspan1.check_claim_stage_link_id();
+
+
+ALTER TABLE ONLY healspan1.medical_info
+    ADD CONSTRAINT fk1reelpd9u4dj4xdc7fsf1mo5l FOREIGN KEY (speciality_mst_id) REFERENCES healspan1.speciality_mst(id);
+
+
+ALTER TABLE ONLY healspan1.patient_info
+    ADD CONSTRAINT fk31xa9k3yh4uo40ri9oj4yom8q FOREIGN KEY (hospital_mst_id) REFERENCES healspan1.hospital_mst(id);
+
+
+ALTER TABLE ONLY healspan1.stage_and_document_link_mst
+    ADD CONSTRAINT fk3bivrtfhkuk0gxngcolfksdju FOREIGN KEY (mandatory_documents_mst_id) REFERENCES healspan1.mandatory_documents_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fk4a3bolyyfie6cbs5yyo6mfgau FOREIGN KEY (patient_info_id) REFERENCES healspan1.patient_info(id);
+
+
+ALTER TABLE ONLY healspan1.document
+    ADD CONSTRAINT fk5f8yx7sdhp1795p7hcdpphg12 FOREIGN KEY (mandatory_documents_mst_id) REFERENCES healspan1.mandatory_documents_mst(id);
+
+
+ALTER TABLE ONLY healspan1.medical_chronic_illness_link
+    ADD CONSTRAINT fk5xupi3ts9korv9ynmokml89qn FOREIGN KEY (chronic_illness_mst_id) REFERENCES healspan1.chronic_illness_mst(id);
+
+
+ALTER TABLE ONLY healspan1.document
+    ADD CONSTRAINT fk6eu9y5k7tbp30vfxq363hfvfj FOREIGN KEY (claim_stage_link_id) REFERENCES healspan1.claim_stage_link(id);
+
+
+ALTER TABLE ONLY healspan1.patient_info
+    ADD CONSTRAINT fk78prxrdgisdhxpx6sr4c0g1jp FOREIGN KEY (gender_mst_id) REFERENCES healspan1.gender_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_info
+    ADD CONSTRAINT fk7p9on31ek2wccogv142huqsc9 FOREIGN KEY (hospital_mst_id) REFERENCES healspan1.hospital_mst(id);
+
+
+ALTER TABLE ONLY healspan1.patient_othercost_link
+    ADD CONSTRAINT fk7umk4i64ivg1ojh6ljs2w4drd FOREIGN KEY (patient_info_id) REFERENCES healspan1.patient_info(id);
+
+
+ALTER TABLE ONLY healspan1.question_answer
+    ADD CONSTRAINT fk817slcvwh9wattfhrof40q4mr FOREIGN KEY (claim_stage_link_id) REFERENCES healspan1.claim_stage_link(id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fk82tvqym5yvba5mxk41pk3a4i4 FOREIGN KEY (insurance_info_id) REFERENCES healspan1.insurance_info(id);
+
+
+ALTER TABLE ONLY healspan1.diagnosis_mst
+    ADD CONSTRAINT fk87xchoyhlep5ngtdegjfdkntw FOREIGN KEY (tpa_mst_id) REFERENCES healspan1.tpa_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.insurance_info
+    ADD CONSTRAINT fk8d3hqm78vbdmvx1q3mh99hdh8 FOREIGN KEY (insurance_company_mst_id) REFERENCES healspan1.insurance_company_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.insurance_info
+    ADD CONSTRAINT fkagmv1479jq8x9kb1c4r7uc4xw FOREIGN KEY (tpa_mst_id) REFERENCES healspan1.tpa_mst(id);
+
+
+ALTER TABLE ONLY healspan1.patient_othercost_link
+    ADD CONSTRAINT fkbvmbo5ik7vg7vmsep25rp75om FOREIGN KEY (other_costs_mst_id) REFERENCES healspan1.other_costs_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fkccr68ces9d38utpw4tyrvj4gq FOREIGN KEY (claim_stage_mst_id) REFERENCES healspan1.claim_stage_mst(id);
+
+
+ALTER TABLE ONLY healspan1.medical_info
+    ADD CONSTRAINT fkceylqmb8sjgok34sg81fajxra FOREIGN KEY (diagnosis_mst_id) REFERENCES healspan1.diagnosis_mst_old(id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fkcvvbmxge0kl2yyiomkq9rfame FOREIGN KEY (assigned_from_user_mst_id) REFERENCES healspan1.user_mst(id);
+
+
+ALTER TABLE ONLY healspan1.user_mst
+    ADD CONSTRAINT fke49u0iellvdc4r5idvllyuhsm FOREIGN KEY (user_role_mst_id) REFERENCES healspan1.user_role_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fkea5i40j67jpgrpd7qh3hxlgar FOREIGN KEY (medical_info_id) REFERENCES healspan1.medical_info(id);
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fkeo5w4ls09o96np58rf5p7fs2 FOREIGN KEY (assigned_to_user_mst_id) REFERENCES healspan1.user_mst(id);
+
+
+ALTER TABLE ONLY healspan1.user_mst
+    ADD CONSTRAINT fkf1nbgg4qrycwgt4rubi49yi75 FOREIGN KEY (hospital_mst_id) REFERENCES healspan1.hospital_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.medical_info
+    ADD CONSTRAINT fkg7lod6ygw0cq36p1viypie3y7 FOREIGN KEY (procedure_mst_id) REFERENCES healspan1.procedure_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.medical_chronic_illness_link
+    ADD CONSTRAINT fkhoxc5bo3sf5fxi5tq2g6omeo0 FOREIGN KEY (medical_info_id) REFERENCES healspan1.medical_info(id);
+
+
+
+ALTER TABLE ONLY healspan1.procedure_mst
+    ADD CONSTRAINT fkhqwmp2a6jjlhvn2gm06kv0fy2 FOREIGN KEY (tpa_mst_id) REFERENCES healspan1.tpa_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fkil7qkbivrsqt1jgt0tdh2srum FOREIGN KEY (user_mst_id) REFERENCES healspan1.user_mst(id);
+
+
+ALTER TABLE ONLY healspan1.patient_info
+    ADD CONSTRAINT fkjw2ctletawjhidq8kvs14giru FOREIGN KEY (room_category_mst_id) REFERENCES healspan1.room_category_mst(id);
+
+
+ALTER TABLE ONLY healspan1.medical_info
+    ADD CONSTRAINT fkjyf88swsgxv0lnja0kiopg1j2 FOREIGN KEY (treatment_type_mst_id) REFERENCES healspan1.treatment_type_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fkk83ncxh639txscbg8hu4bkg21 FOREIGN KEY (status_mst_id) REFERENCES healspan1.status_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.insurance_info
+    ADD CONSTRAINT fklexjnv8rg6xngmypr8nqccu5b FOREIGN KEY (relationship_mst_id) REFERENCES healspan1.relationship_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.question_answer
+    ADD CONSTRAINT fklqa8vjacrwlkgoi7j0h3w46ub FOREIGN KEY (medical_info_id) REFERENCES healspan1.medical_info(id);
+
+
+
+ALTER TABLE ONLY healspan1.stage_and_document_link_mst
+    ADD CONSTRAINT fknc8u01p07il9fy61cd9kngb4o FOREIGN KEY (claim_stage_mst_id) REFERENCES healspan1.claim_stage_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fknlgpoctjsshr7ghasc0hrglt4 FOREIGN KEY (claim_stage_link_id) REFERENCES healspan1.claim_stage_link(id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fknvi2ifr0f74gpwsx4ro6r0emm FOREIGN KEY (user_mst_id) REFERENCES healspan1.user_mst(id);
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fko5lp2vvw4xuqls712jc7vuk7w FOREIGN KEY (claim_info_id) REFERENCES healspan1.claim_info(id);
+
+
+ALTER TABLE ONLY healspan1.claim_info
+    ADD CONSTRAINT fkonb8etyoi65haifwysk4fqsc8 FOREIGN KEY (user_mst_id) REFERENCES healspan1.user_mst(id);
+
+
+ALTER TABLE ONLY healspan1.question_answer
+    ADD CONSTRAINT fkrg7jy0fnjc6e97xhbtbm71u6p FOREIGN KEY (claim_info_id) REFERENCES healspan1.claim_info(id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fkrjryrvgimwg1h5ww78me4r3o6 FOREIGN KEY (claim_info_id) REFERENCES healspan1.claim_info(id);
+
+
+ALTER TABLE ONLY healspan1.claim_stage_link
+    ADD CONSTRAINT fkt7k2qryj5kp6s9uhswq94rap2 FOREIGN KEY (claim_stage_mst_id) REFERENCES healspan1.claim_stage_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.claim_assignment
+    ADD CONSTRAINT fkte00arciicosibpac2ut8pm5j FOREIGN KEY (assigned_to_user_role_mst_id) REFERENCES healspan1.user_role_mst(id);
+
+
+
+ALTER TABLE ONLY healspan1.mandatory_documents_mst
+    ADD CONSTRAINT mandatory_documents_mst_document_type_mst_id_fkey FOREIGN KEY (document_type_mst_id) REFERENCES healspan1.document_type_mst(id) NOT VALID;
+
+
+

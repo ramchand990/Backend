@@ -1,0 +1,628 @@
+{
+	"info": {
+		"_postman_id": "848faebd-b2cc-4bbe-a718-386ec4e9fdc9",
+		"name": "Claim Creation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login Using UserName & Password",
+			"id": "0207cb16-ef68-4080-8632-b6a85b334576",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"Hospital-1\",\r\n    \"password\": \"Dev@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/authentication/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Claim",
+			"id": "39a1b05f-c6e5-46bd-8046-51beac051bb4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://localhost:8109/healspan/claim/retrieveclaim/743"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve All Created Claims",
+			"id": "c56e7a0d-2b00-4069-b317-6ad7ec63d2de",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/claim/retrieveallclaimsofloggedinuser/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve All Claims By Name",
+			"id": "b847152b-bb58-4bec-95da-086ac0326701",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjcyODcyMTA0LCJpYXQiOjE2NzI4MzYxMDR9.D5yk2iZ_Xu51wRmAzK3YveLYCr-Vb-0TgfspCBPyu_o"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": "http://localhost:8109/healspan/claim/retrieveallclaimsofloggedinuser/4/input/Vasudha"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve All Reviewer Claims",
+			"id": "b774d44b-9121-488b-a34f-378350fa9ad5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/claim/reviewer-claims/6"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Master Data",
+			"id": "c1ecfb4d-6e48-4a85-b435-b6a51f4736f7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/admin/masters"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Claim & Patient Info independently",
+			"id": "160a46b6-49bd-45f4-8e6a-35197a7d1624",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": null,\r\n    \"claimStageLinkId\": null,\r\n    \"userId\": 4,\r\n    \"hospitalId\": 1,\r\n    \"claimStageId\": 1,\r\n    \"statusId\": 1 ,\r\n    \"requestType\" : \"Create\",\r\n    \"patientInfoDto\": {\r\n        \"id\": null,\r\n        \"claimStageLinkId\": null,\r\n        \"firstName\": \"Vimal\",\r\n        \"middleName\": \"Suresh\",\r\n        \"lastname\": \"Jambe\",\r\n        \"mobileNo\": \"8976567894\",\r\n        \"dateBirth\": \"1989-07-05\",\r\n        \"age\": 33,\r\n        \"isPrimaryInsured\": \"true\",\r\n        \"dateOfAdmission\": \"2022-09-05T09:30:00\",\r\n        \"estimatedDateOfDischarge\": \"2022-09-05T10:00:00\",\r\n        \"dateOfDischarge\": \"2022-09-12T00:00:00\",\r\n        \"costPerDay\": 7856.00,\r\n        \"totalRoomCost\": 3467.00,\r\n        \"otherCostsEstimate\": 9087.00,\r\n        \"initialCostEstimate\": 3000.00,\r\n        \"billNumber\": \"0987\",\r\n        \"claimedAmount\": 6200.00,\r\n        \"enhancementEstimate\": 6160.00,\r\n        \"finalBillAmount\": 29100.00,\r\n        \"patientUhid\": \"GHS45\",\r\n        \"hospitalId\": 1,\r\n        \"roomCategoryId\": 1,\r\n        \"procedureId\": 1,\r\n        \"genderId\": 1,\r\n        \"patientAndOtherCostLink\": [\r\n            {\r\n                \"id\": 1,\r\n                \"amount\": 9000\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"amount\": 7390\r\n            },\r\n            {\r\n                \"id\": 4,\r\n                \"amount\": 6050\r\n            }\r\n        ]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/createorupdateclaimandpatientinfo"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Medical Info independently",
+			"id": "35600c0a-2fbb-4020-8a46-7130fae42a33",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjczNTE5NDg3LCJpYXQiOjE2NzM1MTc2ODd9.7oGtrCG8VtkQVxIGXnvJwUuc7mlWhF--no9Gix0xAyk"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":  null,\r\n    \"claimStageLinkId\": 281,\r\n    \"dateOfFirstDiagnosis\": \"2022-05-20T04:30:00\",\r\n    \"claimStageId\": 1,\r\n    \"doctorName\": \"Dr. Rane\",\r\n    \"doctorRegistrationNumber\":\"RTYD6746\",\r\n    \"doctorQualification\": \"MD\",\r\n    \"diagnosisId\": 1,\r\n    \"procedureId\": 2,\r\n    \"specialityId\": 1,\r\n    \"treatmentTypeId\": 1,\r\n    \"medicalAndChronicIllnessLink\": [\r\n        {\r\n            \"id\": 1\r\n        },\r\n        {\r\n            \"id\": 3\r\n        },\r\n        {\r\n            \"id\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/createorupdatemedicalinfo"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Insurance Info Independently",
+			"id": "d024df93-5a5f-4514-a09e-c236512bd73c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 219,\r\n    \"claimStageLinkId\": 391,\r\n    \"claimStageId\": 1,\r\n    \"tpaIdNumber\": \"TYG5453\",\r\n    \"policyHolderName\": \"Aakash Doltade\",\r\n    \"policyNumber\": \"XYZAS\",\r\n    \"isGroupPolicy\": false,\r\n    \"groupCompany\": \"Apaar InfoSystems\",\r\n    \"groupCompanyEmpId\":\"895TY56\",\r\n    \"claimIDPreAuthNumber\": \"ERT895IU\",\r\n    \"initialApprovalAmount\": 3100.00,\r\n    \"approvedEnhancementsAmount\": 1200.00,\r\n    \"approvedAmountAtDischarge\": 1900.00,\r\n    \"tpaId\": 1,\r\n    \"insuranceCompanyId\": 1,\r\n    \"relationshipId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/createorupdateinsuranceinfo"
+			},
+			"response": []
+		},
+		{
+			"name": "Save Questionnaires And Documents",
+			"id": "ed898ab2-fdee-4196-9e41-3bc262c7a0e6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimStageLinkId\": 397,\r\n    \"sequentialQuestion\": [\r\n        {\r\n            \"question\": \"Which state you live in?\",\r\n            \"answer\": \"Maharashtra\"\r\n        },\r\n        {\r\n            \"question\": \"Name your city\",\r\n            \"answer\": \"Mumbai\"\r\n        },\r\n        {\r\n            \"question\": \"Area\",\r\n            \"answer\": \"South Mumbai\"\r\n        }\r\n    ],\r\n    \"documentIdList\": [\r\n        22\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/savequestionnairesanddocument"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Documents",
+			"id": "cab47db2-9d07-4f40-a32d-20dc7491e10f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjczNTE1MzQzLCJpYXQiOjE2NzM1MTM1NDN9.iAG0LBr_bFGUe2dq9YnGC1ZO9jPXNR3TAK595ZV8LWg"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "inputDocId",
+							"value": "1130",
+							"type": "text"
+						},
+						{
+							"key": "claimStageLinkId",
+							"value": "280",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/sivakumarthevar/Desktop/response.csv.json"
+						}
+					]
+				},
+				"url": "http://localhost:8109/healspan/claim/upload"
+			},
+			"response": []
+		},
+		{
+			"name": "Download Documents",
+			"id": "574d05ec-c5b2-400f-9d1b-46f83cb32369",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJIb3NwaXRhbC0xIiwiZXhwIjoxNjcyNDQzMDE0LCJpYXQiOjE2NzI0MDcwMTR9.VwjvX5riRyuxGqRb_RH8TqGdfW5UHBlcn8m7FD_dOO4"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/claim/download/*"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Status",
+			"id": "566bfab3-f48a-47fc-a793-9e1f7eb4ca6b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimId\": 602,\r\n    \"stageId\": 1,\r\n    \"flowType\": \"HOSPITAL_USER_SUBMITTED_CLAIM\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/updateclaimstatus"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Stage",
+			"id": "9cf89d66-fd7d-4daa-aa2d-fcb19a04f15b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimStageLinkId\": 847,\r\n    \"claimStageId\": 2,\r\n    \"statusId\": 7,\r\n    \"userId\": 4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/updatestage"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Master By Name & Data",
+			"id": "e2c75fbc-a241-4b8a-a535-036f2a27cf54",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"mstName\" : \"GMR\",\r\n    \"mstData\" : [\r\n       \"Male\",\r\n       \"Female\",\r\n       \"Others\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://3.109.1.145:8109/healsapn/save/master"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Details By Name",
+			"id": "f3415c69-e9d6-4308-bd8e-be2f49aa970e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://13.235.113.71:8109/healspan/claim/retrieveallclaimsofloggedinuser/4"
+			},
+			"response": []
+		},
+		{
+			"name": "login using username & pswd",
+			"id": "b6adffe5-5b1c-45b6-a264-34aba3315e8c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"hospital-1\",\r\n    \"password\": \"Dev@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/authentication/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Update claim status to Submited",
+			"id": "d0d1433b-3e61-41c4-9b80-355bb0b5b90f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimId\":13,\r\n    \"stageId\":2,\r\n    \"statusId\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/updateclaimstatus"
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve All Created Claims",
+			"id": "3e2a85f9-50e7-41ab-b8f9-f11c4491df9e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/claim/retrieveallclaimsofloggedinuser/4"
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Document",
+			"id": "5740492d-742e-403e-9335-f28775ad0a73",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "inputDocId",
+							"value": "630",
+							"type": "text"
+						},
+						{
+							"key": "claimInfoId",
+							"value": "80",
+							"type": "text"
+						},
+						{
+							"key": "medicalInfoId",
+							"value": "152",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/sivakumarthevar/Desktop/Work.xlsx"
+						}
+					]
+				},
+				"url": "http://localhost:8109/healspan/claim/upload"
+			},
+			"response": []
+		},
+		{
+			"name": "Comment To Hospital User",
+			"id": "a86c4c46-14b8-4174-860a-0549c832d083",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimId\": 505,\r\n    \"stageId\" : 1,\r\n    \"flowType\": \"HEALSPAN_USER_QUERIED_AGAINST_CLAIM\",\r\n    \"transferComment\": \"Provide Pan Card\",\r\n    \"documentIds\": [\r\n        1,\r\n        2,\r\n        11,\r\n        12\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/comment"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Mandatory Document in Master",
+			"id": "09a6e8e5-5cb1-4d1e-ab4a-1a87de283ef9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"assignId\": 411,\r\n    \"userMstId\": 4,\r\n    \"reviewerNote\": \"plz upload aadhar card\",\r\n    \"documentId\": [\r\n        1,\r\n        2\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/getdocument/dummyaadhar/2"
+			},
+			"response": []
+		},
+		{
+			"name": "RPA Data push Copy",
+			"id": "5a50b36c-309d-4e2f-a0a3-3bf98fb2d2dd",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"claimId\":149,\r\n    \"stageId\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/claim/pushclaimdatatorpa"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Notification",
+			"id": "c39ab9fb-e3bf-4000-b028-bf5d214cbb3c",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userIds\": [\r\n        2,\r\n        3,\r\n        4,\r\n        5\r\n    ],\r\n    \"notificationText\": \"Claim Created For Claim ID: 526\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/healspan/notifications/create"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Notification By User",
+			"id": "1bfcb0f3-5ce4-4216-86a8-cdb8b00ff24a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8109/healspan/notifications/find-user-notification/2"
+			},
+			"response": []
+		},
+		{
+			"name": "Tpa Approval",
+			"id": "1f0f82a5-7742-4d54-956e-5b3136b7f5f6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"claimId\" : 632,\r\n  \"stageId\" : 1,\r\n  \"claimNumber\" : \"CLAIM201\",\r\n  \"remarks\" : \"dummy remarks\",\r\n  \"status\"  : \"APPROVED\",\r\n  \"approvedAmount\" : 250000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8109/tpa/claim/tparesponse"
+			},
+			"response": []
+		}
+	]
+}
